@@ -1,4 +1,8 @@
 # GoBot
 This is the source code of a telegram bot to manage a carpooling service for students in NTU. 
 
-This is only the first version. More updates will come as students demand more functionalities.
+
+NOTE: THIS IS DEPRECATED CODE. IT IS NO LONGER IN USE. NEWER VERSIONS OF GOBOT HAVE UPDATED FUNCTIONALITIES. THIS IS ONLY A DEMONSTRATION AND TEMPLATE.
+Future functionalities include: Matching and alerting users based on open carpooling events.
+
+Pull requests are encouraged.
