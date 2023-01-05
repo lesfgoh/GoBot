@@ -5,6 +5,8 @@ from requests import *
 import logging
 
 
+
+# This dictionary stores the home addresses of users, with telegram user_ids being the dictionary keys.
 addresses = dict()
 
 
@@ -35,12 +37,12 @@ def start(update: Update, context: CallbackContext) -> None:
 
 def add_address(chat_ID, location):
     addresses[chat_ID] = location.lower()
+    
+            
+# Only the following 5 commands are relevant.
 
-def notify(location):
-    for i in addresses:
-        if location.lower() in addresses[i]:
-            print(i)
-
+# This function submits a new ride request to a certain location. Upon receiving this ride request, the bot
+# will notify everyone that set this location as their home address.
 def submit(update: Update, context: CallbackContext) -> None:
     location = context.args[0].lower()
     for i in addresses:
@@ -48,10 +50,11 @@ def submit(update: Update, context: CallbackContext) -> None:
             update.message.reply_text(i, disable_notification = True)
             context.bot.send_message(chat_id=str(i), text='A ride has opened up to ' + location + ' !')
     
-    
+# Deletes corresponding chat_id from the addresses dictionary.
 def delete(chat_ID):
     del(addresses[chat_ID])
 
+# Function for user to initialise their address location in the addresses dictionary.
 def init(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(context.args)
     if context.args:
@@ -59,14 +62,17 @@ def init(update: Update, context: CallbackContext) -> None:
     else:
         update.message.reply_text("Please provide locations which you live near, for example: /sethome CCK. Spaces are not allowed!", disable_notification = True)
 
+# Shows all entries in the dictionary.
 def show(update:Update, context: CallbackContext) -> None:
     update.message.reply_text("Show function is being called.")
     update.message.reply_text(addresses)
     
+# Shows the location of the user who calls this function, as entered in the dictionary.
 def showme(update: Update, context: CallbackContext) -> None:
     update.message.reply_text("Showme function is being called.")
     update.message.reply_text(addresses[update.effective_chat.id])
 
+    
 def info (update: Update, context: CallbackContext) -> None:
     update.message.reply_text("Please enter /sethome <General Area> e.g /sethome CCK . For now, the bot doesn't accept spaces: Input YewTee instead of Yew Tee. Any input will be changed to lowercase letters! \nYou can either message me directly, or in the GoBek group. For more questions, please contact my creator at @importr on.", disable_notification = True)
 
@@ -125,7 +131,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("match", match))
     dispatcher.add_handler(CommandHandler("feedback", feedback))
     
-    # Only these commands are being tested now. The rest are not relevant, and are for different purposes.
+    # Only the following commands are being tested now. The rest are not relevant, and are for different purposes.
     
     dispatcher.add_handler(CommandHandler("show", show))
     dispatcher.add_handler(CommandHandler("showme", showme))
